@@ -79,6 +79,13 @@ public class GeneticAlgorithm {
         return genome;
     }
 
+    public void run() {
+        // TODO: implement running of Genetic Algorithm
+    }
+
+    /*
+     * Getter functions
+    */
     public int getPopulationSize() {
         return this.populationSize;
     }
@@ -94,8 +101,12 @@ public class GeneticAlgorithm {
         return this.mutationRate;
     }
 
-    public void run() {
-        // TODO: implement running of Genetic Algorithm
+    public int[][] getPopulation() {
+        return this.population;
+    }
+
+    public int getGenomeLength() {
+        return this.genomeLength;
     }
 
     public static void main(String[] args) {
@@ -104,11 +115,10 @@ public class GeneticAlgorithm {
         int populationSize = stdIn.nextInt();
         double mutationRate = stdIn.nextDouble();
         double crossoverRate = stdIn.nextDouble();
+        int genomeLength = stdIn.nextInt();
         stdIn.close();
 
-        GeneticAlgorithm model = new GeneticAlgorithm(populationSize, crossoverRate, mutationRate);
-        System.out.println("Population size: " + model.getPopulationSize());
-        System.out.println("Crossover rate: " + model.getCrossoverRate());
-        System.out.println("Mutation rate: " + model.getMutationRate());
+        System.out.println(populationSize + ", " + mutationRate + ", " + crossoverRate +
+         ", " + genomeLength);
     }
 }
