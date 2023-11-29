@@ -26,6 +26,17 @@ public class GeneticAlgorithm {
         this.mutationRate = mutationRate;
     }
 
+    private int[] randomGenome(int length) {
+        // Random random = new Random();
+        int[] genome = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            genome[i] = this.random.nextInt(2);
+        }
+
+        return genome;
+    }
+
     private void makePopulation() {
         for (int i = 0; i < this.populationSize; i++) {
             int[] genome = this.randomGenome(10);
@@ -39,6 +50,18 @@ public class GeneticAlgorithm {
             fitnessValue += genome[i];
         }
         return fitnessValue;
+    }
+
+    private double[] evaluateFitness() {
+        double[] evaluation = new double[2];
+
+        return evaluation;
+    }
+
+    private int[][] selectPair() {
+        int[][] pair = new int[2][this.genomeLength];
+
+        return pair;
     }
 
     private int[][] crossover(int[] d, int[] s) {
@@ -68,18 +91,13 @@ public class GeneticAlgorithm {
         return childGenome;
     }
 
-    private int[] randomGenome(int length) {
-        // Random random = new Random();
-        int[] genome = new int[length];
-
-        for (int i = 0; i < length; i++) {
-            genome[i] = this.random.nextInt(2);
-        }
-
+    private int[] mutate(int[] genome) {
         return genome;
     }
 
-    public void run() {
+    
+
+    public void runGA() {
         // TODO: implement running of Genetic Algorithm
     }
 
