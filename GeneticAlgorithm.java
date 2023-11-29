@@ -92,9 +92,15 @@ public class GeneticAlgorithm {
     }
 
     private int[] mutate(int[] genome) {
-        return genome;
+        int[] mutatedGenome = genome;
+        for (int i = 0; i < this.genomeLength; i++) {
+            double rate = this.random.nextDouble();
+            if (rate < this.mutationRate) {
+                mutatedGenome[i] = this.random.nextInt(2);
+            }
+        }
+        return mutatedGenome;
     }
-
     
 
     public void runGA() {
