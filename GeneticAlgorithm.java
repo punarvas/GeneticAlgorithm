@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Random;
 
+
 public class GeneticAlgorithm {
     private int populationSize;
     private double crossoverRate = -1;
@@ -26,6 +27,15 @@ public class GeneticAlgorithm {
         this.mutationRate = mutationRate;
     }
 
+    private int[] randomGenome(int length) {
+        // Random random = new Random();
+        int[] genome = new int[length];
+        for (int i = 0; i < length; i++) {
+            genome[i] = this.random.nextInt(2);
+        }
+        return genome;
+    }
+
     private void makePopulation() {
         for (int i = 0; i < this.populationSize; i++) {
             int[] genome = this.randomGenome(10);
@@ -39,6 +49,31 @@ public class GeneticAlgorithm {
             fitnessValue += genome[i];
         }
         return fitnessValue;
+    }
+
+    private double[] evaluateFitness() {
+        double[] evaluation = new double[2];
+        int totalFitness = 0;
+        double bestFitness = 0;
+        for (int i = 0; i < this.populationSize; i++){
+            int fitnessValue = fitness(this.population[i]);
+            totalFitness += fitnessValue;
+            if (fitnessValue >= bestFitness) {
+                bestFitness = fitnessValue;
+            }
+        }
+        evaluation[0] = totalFitness / this.populationSize;
+        evaluation[1] = bestFitness;
+        return evaluation;
+    }
+
+    private int[][] selectPair() {
+        int[][] pair = new int[2][this.genomeLength];
+        for (int i = 0; i < 2; i++) {
+            int randomIndex = this.random.nextInt(this.populationSize);
+            pair[i] = this.population[randomIndex];
+        }
+        return pair;
     }
 
     private int[][] crossover(int[] d, int[] s) {
@@ -68,18 +103,19 @@ public class GeneticAlgorithm {
         return childGenome;
     }
 
-    private int[] randomGenome(int length) {
-        // Random random = new Random();
-        int[] genome = new int[length];
-
-        for (int i = 0; i < length; i++) {
-            genome[i] = this.random.nextInt(2);
+    private int[] mutate(int[] genome) {
+        int[] mutatedGenome = genome;
+        for (int i = 0; i < this.genomeLength; i++) {
+            double rate = this.random.nextDouble();
+            if (rate < this.mutationRate) {
+                mutatedGenome[i] = this.random.nextInt(2);
+            }
         }
-
-        return genome;
+        return mutatedGenome;
     }
+    
 
-    public void run() {
+    public void runGA() {
         // TODO: implement running of Genetic Algorithm
     }
 
