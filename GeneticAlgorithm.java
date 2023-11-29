@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Random;
 
+
 public class GeneticAlgorithm {
     private int populationSize;
     private double crossoverRate = -1;
@@ -29,11 +30,9 @@ public class GeneticAlgorithm {
     private int[] randomGenome(int length) {
         // Random random = new Random();
         int[] genome = new int[length];
-
         for (int i = 0; i < length; i++) {
             genome[i] = this.random.nextInt(2);
         }
-
         return genome;
     }
 
@@ -54,13 +53,26 @@ public class GeneticAlgorithm {
 
     private double[] evaluateFitness() {
         double[] evaluation = new double[2];
-
+        int totalFitness = 0;
+        double bestFitness = 0;
+        for (int i = 0; i < this.populationSize; i++){
+            int fitnessValue = fitness(this.population[i]);
+            totalFitness += fitnessValue;
+            if (fitnessValue >= bestFitness) {
+                bestFitness = fitnessValue;
+            }
+        }
+        evaluation[0] = totalFitness / this.populationSize;
+        evaluation[1] = bestFitness;
         return evaluation;
     }
 
     private int[][] selectPair() {
         int[][] pair = new int[2][this.genomeLength];
-
+        for (int i = 0; i < 2; i++) {
+            int randomIndex = this.random.nextInt(this.populationSize);
+            pair[i] = this.population[randomIndex];
+        }
         return pair;
     }
 
