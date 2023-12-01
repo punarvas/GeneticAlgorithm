@@ -10,6 +10,8 @@ public class GeneticAlgorithm {
     private int[][] population;
     private final Random random = new Random();
 
+    private int[] replacement = new int[2];
+
     public GeneticAlgorithm(int populationSize, int genomeLength, double crossoverRate, double mutationRate) {
         this.populationSize = populationSize;
         this.crossoverRate = crossoverRate;
@@ -72,6 +74,7 @@ public class GeneticAlgorithm {
         for (int i = 0; i < 2; i++) {
             int randomIndex = this.random.nextInt(this.populationSize);
             pair[i] = this.population[randomIndex];
+            replacement[i] = randomIndex;
         }
         return pair;
     }
@@ -116,7 +119,40 @@ public class GeneticAlgorithm {
     
 
     public void runGA() {
-        // TODO: implement running of Genetic Algorithm
+        int maxGenerations = 30;
+        int targetFitness = 10;
+
+        for(int i = 0; i < maxGenerations; i++) {
+            double[] evaluation = this.evaluateFitness();
+            if (evaluation[1] == targetFitness) {
+                break;
+            }
+
+            // Pick a pair of individual
+            int[][] genomePair = this.selectPair();
+
+            // Produce child population
+            int[][] childGenome = this.crossover(genomePair[0], genomePair[1]);
+
+            // Mutate the child population
+            for (int j = 0; j < 2; j++) {
+                childGenome[j] = this.mutate(childGenome[j]);
+            }
+
+            // replace the population
+            this.population[replacement[0]] = childGenome[0];
+            this.population[replacement[1]] = childGenome[1];
+
+            // Print generation report
+            this.printGeneration(i + 1);
+        }
+    }
+
+    public void printGeneration(int gen) {
+        double[] evaluation = this.evaluateFitness();
+        System.out.print("Generation " + gen + ": ");
+        System.out.print("average fitness: " + evaluation[0] + ", ");
+        System.out.print("best fitness: " + evaluation[1] + "\n");
     }
 
     /*
@@ -154,7 +190,9 @@ public class GeneticAlgorithm {
         int genomeLength = stdIn.nextInt();
         stdIn.close();
 
-        System.out.println(populationSize + ", " + mutationRate + ", " + crossoverRate +
-         ", " + genomeLength);
+        // System.out.println(populationSize + ", " + mutationRate + ", " + crossoverRate +
+        //  ", " + genomeLength);
+        GeneticAlgorithm ga = new GeneticAlgorithm(populationSize, genomeLength, mutationRate, crossoverRate);
+        ga.runGA();
     }
 }
